@@ -56,6 +56,6 @@ public class Window {
     {
         g.drawImage(image,0,0,canvas.getWidth(),canvas.getHeight(),null);
         bStrategy.show();
-        frame.setTitle(gc.getTitle()+" Fps: "+gc.getFps());
+        frame.setTitle(gc.getTitle());
     }
 }

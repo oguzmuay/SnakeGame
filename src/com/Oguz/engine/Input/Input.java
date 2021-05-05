@@ -8,7 +8,7 @@ public class Input implements KeyListener, MouseListener , MouseMotionListener, 
 
     private GameContainer gc;
 
-    private final Keycode KeyCode = new Keycode();
+    //private final Keycode KeyCode = new Keycode();
 
     private final int NUM_KEYS = 256;
     private boolean[] keys = new boolean[NUM_KEYS];
@@ -20,6 +20,7 @@ public class Input implements KeyListener, MouseListener , MouseMotionListener, 
 
     private int mouseX , mouseY;
     private int scroll;
+    private boolean isMouseMove;
     public Input(GameContainer gc)
     {
         this.gc = gc;
@@ -35,6 +36,7 @@ public class Input implements KeyListener, MouseListener , MouseMotionListener, 
     public void Update()
     {
         scroll = 0;
+        isMouseMove = false;
         System.arraycopy(keys, 0, keysLast, 0, NUM_KEYS);
         System.arraycopy(buttons, 0, buttonsLast, 0, BUTTON_KEYS);
     }
@@ -84,6 +86,7 @@ public class Input implements KeyListener, MouseListener , MouseMotionListener, 
     public void mouseMoved(MouseEvent e) {
         mouseX = (int)(e.getX()/gc.getScale());
         mouseY = (int)(e.getY()/gc.getScale());
+        isMouseMove = true;
     }
 
     @Override
@@ -101,6 +104,10 @@ public class Input implements KeyListener, MouseListener , MouseMotionListener, 
 
     public int getScroll() {
         return scroll;
+    }
+
+    public boolean isMouseMove() {
+        return isMouseMove;
     }
 
     public boolean isKey(int keyCode)

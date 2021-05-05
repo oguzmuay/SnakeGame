@@ -1,7 +1,6 @@
 package com.Oguz.game;
 
 import com.Oguz.engine.GameContainer;
-import com.Oguz.engine.Input.Keycode;
 import com.Oguz.engine.Renderer;
 import com.Oguz.engine.Vector.Vector2D;
 
@@ -35,7 +34,6 @@ public class SnakeHead extends GameObject{
 
     @Override
     public void Render(GameContainer gc,GameManager gm,Renderer renderer) {
-        // TODO: Hareket etmedigim zamanda kafami dondurebiliyorum.
         if(renderDir.x == 1)
         {
             if(renderDir.y == 1) //TODO: Sag alta dogru gidiyomus gibi gozukmesi lazim ama onun asseti yok
@@ -57,22 +55,22 @@ public class SnakeHead extends GameObject{
             }else if(renderDir.y == -1) //TODO: Sol yukari dogru gidiyomus gibi gozukmesi lazim ama onun asseti yok
             {
                 renderer.DrawImage(gm.imageManager.getImage("headLeft"),(int)posX,(int)posY);
-            }else // Sola dogru gidiyor.
+            }else
             {
                 renderer.DrawImage(gm.imageManager.getImage("headLeft"),(int)posX,(int)posY);
             }
         }else
             {
-                if(renderDir.y == 1) // Alta dogru gidiyor
+                if(renderDir.y == 1)
                 {
                     renderer.DrawImage(gm.imageManager.getImage("headDown"),(int)posX,(int)posY);
-                }else if(renderDir.y == -1) //Yukari dogru gidiyor
+                }else if(renderDir.y == -1)
                 {
                     renderer.DrawImage(gm.imageManager.getImage("headUp"),(int)posX,(int)posY);
                 }
             }
-        for (int i = 0; i < body.size(); i++) {
-            body.get(i).Render(renderer,gm);
+        for (SnakeBody snakeBody : body) {
+            snakeBody.Render(renderer, gm);
         }
     }
 
@@ -127,8 +125,8 @@ public class SnakeHead extends GameObject{
         for (int i = 0; i < body.size(); i++) {
             if(body.get(i).getPos().x == posX && body.get(i).getPos().y == posY)
             {
-                for (int j = body.size()-1; j >= i; j--) {
-                    body.remove(j);
+                if (body.size() > i) {
+                    body.subList(i, body.size()).clear();
                 }
                 break;
             }
@@ -137,17 +135,5 @@ public class SnakeHead extends GameObject{
     }
     public Vector2D getMovDir() {
         return movDir;
-    }
-
-    public void setMovDir(Vector2D movDir) {
-        this.movDir = movDir;
-    }
-
-    public Vector2D getRenderDir() {
-        return renderDir;
-    }
-
-    public void setRenderDir(Vector2D renderDir) {
-        this.renderDir = renderDir;
     }
 }

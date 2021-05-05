@@ -5,24 +5,34 @@ import com.Oguz.engine.Input.Keycode;
 import com.Oguz.engine.Renderer;
 import com.Oguz.engine.UI.*;
 import com.Oguz.engine.Vector.Vector2D;
+import com.Oguz.engine.gfx.ImageManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameManager extends AbstractGame {
     public ArrayList<GameObject> objects = new ArrayList<>();
-    //private final ArrayList<Canvas> canvasObjects = new ArrayList<>();
+    private final ArrayList<Canvas> canvasObjects = new ArrayList<>();
     public ImageManager imageManager = new ImageManager();
     private final Portal portal;
     private final SnakeHead snake;
     private float elapsedTime;
-    private int[][] level = new int[40][30];
+    private final int[][] level = new int[40][30];
     private boolean theEnd = false;
     public GameManager()
     {
         snake = new SnakeHead(3);
         objects.add(new Food(snake));
         portal = new Portal(new Vector2D(16,48),new Vector2D(48,48));
+        canvasObjects.add(new Canvas());
+        Panel panel = new Panel(canvasObjects.get(0),canvasObjects.get(0),135,20,50,100,
+                0xffffff,0xffffff,0x66ff33,0x444444,-1);
+        ArrayList<ButtonFunction> buttonActions = new ArrayList<>();
+        buttonActions.add(() -> System.exit(0));
+        Button button = new Button(panel,canvasObjects.get(0),0,0,45,25,
+                0xffffff,0xffffff,0x66ff33,0x444444,
+                VerticalPositions.Top,HorizontalPositions.Middle,buttonActions);
+        Text text = new Text(button, canvasObjects.get(0), "ExIt",0,0,0x000000,VerticalPositions.Top,HorizontalPositions.Middle);
+
         LoadLevel();
     }
     @Override
@@ -42,13 +52,12 @@ public class GameManager extends AbstractGame {
             snake.Update(gc,this,dt);
             portal.Update(gc,this,dt);
         }
-        /*
         for (Canvas canvas:canvasObjects) {
             if(canvas.enable)
             {
                 canvas.Update(gc,this);
             }
-        }*/
+        }
     }
 
     @Override
@@ -65,13 +74,16 @@ public class GameManager extends AbstractGame {
                     renderer.DrawImage(imageManager.getImage("brick"),j*8,i*8);
             }
         }
+        for (Canvas canvas:canvasObjects) {
+            canvas.Render(gc,this,renderer);
+        }
     }
     public static void main(String[] args)
     {
         GameContainer gameContainer = new GameContainer(new GameManager());
         gameContainer.start();
     }
-    void LoadLevel()
+    void LoadLevel() //TODO: Change with SaveLoad
     {
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 40; j++) {

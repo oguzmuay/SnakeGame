@@ -59,16 +59,12 @@ public abstract class GameObject {
         return isDead;
     }
 
-    public boolean CollisionRect(GameObject object)
+    public boolean CollisionRect(GameObject object)//TODO: Collider componentinin icine at
     {
-        if(posX < object.posX + object.width &&
+        return posX < object.posX + object.width &&
                 posX + width > object.posX &&
                 posY < object.posY + object.height &&
-                posY + height > object.posY)
-        {
-            return true;
-        }
-        return false;
+                posY + height > object.posY;
     }
 
     public void setTrigger(boolean trigger) {

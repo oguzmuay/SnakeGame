@@ -1,12 +1,11 @@
-package com.Oguz.game;
-
-import com.Oguz.engine.gfx.Image;
+package com.Oguz.engine.gfx;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ImageManager {
     private Map<String, Image> images = new HashMap<>();
+    private Map<Integer,Image> tiles = new HashMap<>();
     public ImageManager()
     {
         images.put("headUp",new Image("/headUp.png"));
@@ -21,5 +20,13 @@ public class ImageManager {
     public Image getImage(String key)
     {
         return images.get(key);
+    }
+    public Image getImage(String key,String palette)
+    {
+        return switch (palette) {
+            case "tile" -> tiles.get(Integer.parseInt(key));
+            case "image" -> images.get(key);
+            default -> null;
+        };
     }
 }
