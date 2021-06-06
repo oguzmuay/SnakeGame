@@ -18,20 +18,22 @@ public class GameManager extends AbstractGame {
     private float elapsedTime;
     private final int[][] level = new int[40][30];
     private boolean theEnd = false;
+    Panel panel;
     public GameManager()
     {
         snake = new SnakeHead(3);
         objects.add(new Food(snake));
         portal = new Portal(new Vector2D(16,48),new Vector2D(48,48));
         canvasObjects.add(new Canvas());
-        Panel panel = new Panel(canvasObjects.get(0),canvasObjects.get(0),135,20,50,100,
-                0xffffff,0xffffff,0x66ff33,0x444444,-1);
+        panel = new Panel(canvasObjects.get(0),canvasObjects.get(0),110,20,100,100,
+                0x808080,0xff00ff,0x66ff33,0x444444,-1);
+        panel.enable = false;
         ArrayList<ButtonFunction> buttonActions = new ArrayList<>();
         buttonActions.add(() -> System.exit(0));
-        Button button = new Button(panel,canvasObjects.get(0),0,0,45,25,
-                0xffffff,0xffffff,0x66ff33,0x444444,
-                VerticalPositions.Top,HorizontalPositions.Middle,buttonActions);
-        Text text = new Text(button, canvasObjects.get(0), "ExIt",0,0,0x000000,VerticalPositions.Top,HorizontalPositions.Middle);
+        Button button = new Button(panel,canvasObjects.get(0),0,10,45,25,
+                0x696969,0x696969,0x778899,0x708090,
+                VerticalPositions.Middle,HorizontalPositions.Middle,buttonActions);
+        Text text = new Text(button, canvasObjects.get(0), "ExIt",0,0,0x000000,VerticalPositions.Middle,HorizontalPositions.Middle);
 
         LoadLevel();
     }
@@ -51,6 +53,8 @@ public class GameManager extends AbstractGame {
             }
             snake.Update(gc,this,dt);
             portal.Update(gc,this,dt);
+        }else{
+            panel.enable = true;
         }
         for (Canvas canvas:canvasObjects) {
             if(canvas.enable)
@@ -98,9 +102,6 @@ public class GameManager extends AbstractGame {
     public int[][] getLevel() {
         return level;
     }
-    /*public ArrayList<Canvas> getCanvasObjects() {
-        return canvasObjects;
-    }*/
     public void setTheEnd(boolean theEnd) {
         this.theEnd = theEnd;
     }

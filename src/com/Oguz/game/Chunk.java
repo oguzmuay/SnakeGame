@@ -22,5 +22,14 @@ public class Chunk {
     {
         // This function called when this chunk's updating period is over.
     }
+    public void AddColliderToChunk(GameObject collider){
+        colliders.add(collider);
+    }
+    public void AddObjectToChunk(GameObject collider){
+        //colliders.add(collider);
+    }
+    public void AddTileToChunk(GameObject collider){
+        //colliders.add(collider);
+    }
 }
 
